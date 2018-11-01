@@ -32,7 +32,7 @@ def crawl_coursera(course_slug, dname, subtitle):
                 video = video_dict[item]
                 if video['contentSummary']['typeName'] == 'lecture':
                     lecture_flag = True
-                    mname = mname.replace('?', '').replace(':', '').replace('/', '_')
+                    mname = mname.replace('?', '').replace(':', '').replace('/', '_').strip()
                     if not os.path.exists(mname):
                         os.makedirs(mname)
                     print('\t\t{}.{}'.format(video_num, video['name']))
@@ -50,18 +50,17 @@ def crawl_one_video(lesson, fname, subtitle):
     fname = fname.replace('?', '').replace(':', '').replace('/', '_')
     if subtitle:
         sname = fname.replace('.mp4', '.srt')
-        if os.path.exists(sname) and os.path.getsize(sname) != 0:
-            return
-        sub_dict = json.loads(re.findall(re.compile(r'"subtitles":({.*?})'), r.text)[0])
-        surl = ''
-        if 'zh-CN' in sub_dict:
-            surl = sub_dict['zh-CN']
-        elif 'zh-TW' in sub_dict:
-            surl = sub_dict['zh-TW']
-        else:
-            surl = sub_dict['en']
-        with open(sname, 'wb') as f:
-            f.write(requests.get('https://www.coursera.org{}'.format(surl)).content)
+        if not (os.path.exists(sname) and os.path.getsize(sname) != 0):
+            sub_dict = json.loads(re.findall(re.compile(r'"subtitles":({.*?})'), r.text)[0])
+            surl = ''
+            if 'zh-CN' in sub_dict:
+                surl = sub_dict['zh-CN']
+            elif 'zh-TW' in sub_dict:
+                surl = sub_dict['zh-TW']
+            else:
+                surl = sub_dict['en']
+            with open(sname, 'wb') as f:
+                f.write(requests.get('https://www.coursera.org{}'.format(surl)).content)
     if os.path.exists(fname):
         if os.path.getsize(fname) != 0:
             return

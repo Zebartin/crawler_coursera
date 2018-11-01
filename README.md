@@ -13,6 +13,7 @@ Usage: python coursera.py -n [CourseNameInUrl]
   - Firstly, get into the welcome page of the course from wherever you notice it;
   - Secondly, copy the latter part of the url. For example, the url of [Wonders of Ancient Egypt](https://www.coursera.org/learn/wonders-ancient-egypt) is `https://www.coursera.org/learn/wonders-ancient-egypt`, and all we need is the part after `learn/`, that is, `wonders-ancient-egypt`;
   - Finally, run `crawler_coursera.py` for the course. For example, `python crawler_coursera.py -n wonders-ancient-egypt`.
+  - Videos will be stored in directory `..\Coursera\[CourseName]\[ModuleName]`. Videos are divided according to course modules instead of weeks.
 - In case you want the subtitles for videos, you can use option `-s`, like `python crawler_coursera.py -n CourseName -s`
   - First choice of language for subtitiles is Chinese;
   - English subtitles will be the next;
